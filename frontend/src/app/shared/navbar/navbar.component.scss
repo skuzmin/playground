@@ -1,0 +1,18 @@
+.app-navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: var(--navbar-color-bg);
+    position: fixed;
+    z-index: 11111;
+    .text {
+        font-size: 2rem;
+    }
+    .action-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+}

@@ -1,0 +1,33 @@
+.app-grid {
+    .btn-create {
+        margin-bottom: 1rem;
+    }
+    .table {
+        width: 100%;
+        .id {
+            width: 5%;
+            text-align: center;
+        }
+        .action {
+            width: 10%;
+            text-align: center;
+        }
+        th {
+            color: var(--basic-white);
+            background-color: var(--grid-header-color-bg);
+            padding: 1rem 0.5rem;
+        }
+        tbody {
+            tr {
+                background-color: var(--grid-data-color-bg);
+                &:nth-child(odd) {
+                    background-color: var(--grid-data-color-light-bg);
+                }
+            }
+            td {
+                color: var(--basic-white);
+                padding: 0.5rem;
+            }
+        }
+    }
+}

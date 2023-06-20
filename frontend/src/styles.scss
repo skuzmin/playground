@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+
+:root {
+    --basic-white: #fff;
+    --basic-color: #c2c2c2;
+    --basic-color-bg: #0f553c;
+    --navbar-color-bg: #053122;
+    --grid-header-color-bg: #530707;
+    --grid-data-color-bg: #6f0b0b;
+    --grid-data-color-light-bg: #832424;
+    --button-color-bg: #430303;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    line-height: 1;
+    background-color: var(--basic-color-bg);
+    color: var(--basic-color);
+    font-size: 16px;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    &.btn-primary {
+        background-color: var(--button-color-bg);
+        color: var(--basic-white);
+        &:hover {
+            background-color: var(--basic-white);
+            color: var(--button-color-bg);
+        }
+        &:active {
+            background-color: var(--basic-color);
+            color: var(--button-color-bg);
+        }
+    }
+}

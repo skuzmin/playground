@@ -1,0 +1,25 @@
+<div class="app-grid">
+    <button class="btn btn-primary btn-create">Add</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="id">ID</th>
+                <th>Text</th>
+                <th class="action">Edit</th>
+                <th class="action">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of data">
+                <td class="id">{{item.id}}</td>
+                <td>{{item.text}}</td>
+                <td class="action">
+                    <button class="btn btn-edit">Edit</button>
+                </td>
+                <td class="action">
+                    <button class="btn btn-delete">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
