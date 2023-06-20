@@ -1,4 +1,4 @@
-export interface Crud {
+export interface CrudItem {
     id: string;
     text: string;
 }

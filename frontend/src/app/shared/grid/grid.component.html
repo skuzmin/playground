@@ -1,5 +1,12 @@
 <div class="app-grid">
-    <button class="btn btn-primary btn-create">Add</button>
+    <div class="add-group">
+        <button class="btn btn-primary" *ngIf="!isAddRowVisible" (click)="add()">Add</button>
+        <ng-container *ngIf="isAddRowVisible">
+            <input [(ngModel)]="newItem.text" type="text" />
+            <button class="btn btn-primary" (click)="save()">Save</button>
+            <button class="btn" (click)="cancel()">Cancel</button>
+        </ng-container>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -10,14 +17,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of data">
+            <tr *ngFor="let item of data; let i = index">
                 <td class="id">{{item.id}}</td>
                 <td>{{item.text}}</td>
                 <td class="action">
-                    <button class="btn btn-edit">Edit</button>
+                    <button class="btn" (click)="edit(item)">Edit</button>
                 </td>
                 <td class="action">
-                    <button class="btn btn-delete">Delete</button>
+                    <button class="btn" (click)="delete(item, i)">Delete</button>
                 </td>
             </tr>
         </tbody>

@@ -2,8 +2,8 @@
     <div class="text">PLAYGROUND</div>
     <div class="action-group">
         <span>PROVIDER:</span>
-        <select [(ngModel)]="base">
-            <option selected="selected" [ngValue]="'test'">NestJS</option>
+        <select class="select" [(ngModel)]="base">
+            <option *ngFor="let provider of providers" [ngValue]="provider">{{provider.name}}</option>
         </select>
     </div>
 </div>
