@@ -1,7 +1,7 @@
 export interface BaseProvider {
     id: string;
     name: string;
-    function?: CRUD;
+    url: string;
 }
 
 export interface CRUD {

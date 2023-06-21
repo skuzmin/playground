@@ -1,1 +1,1 @@
-export * from './crud.model';
+export * from './provider.model';

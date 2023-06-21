@@ -2,7 +2,7 @@
     <div class="text">PLAYGROUND</div>
     <div class="action-group">
         <span>PROVIDER:</span>
-        <select class="select" [(ngModel)]="base">
+        <select class="select" [ngModel]="base" (ngModelChange)="changeBase($event)">
             <option *ngFor="let provider of providers" [ngValue]="provider">{{provider.name}}</option>
         </select>
     </div>

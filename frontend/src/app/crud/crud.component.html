@@ -1,4 +1,4 @@
 <div class="app-crud">
     <app-title title="CRUD"></app-title>
-    <app-grid></app-grid>
+    <app-grid [data]="data" (action)="onGridAction($event)"></app-grid>
 </div>

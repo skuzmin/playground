@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Providers } from 'src/app/constants';
 
 import { BaseProvider } from 'src/app/models/provider.model';
+import { BaseProviderService } from 'src/app/services';
 
 @Component({
   selector: 'app-navbar',
@@ -11,11 +11,14 @@ import { BaseProvider } from 'src/app/models/provider.model';
 export class NavbarComponent implements OnInit {
   public base: BaseProvider;
   public providers: Array<BaseProvider>;
+  constructor(private baseProviderService: BaseProviderService) {}
 
   ngOnInit(): void {
-    this.providers = [
-      { id: Providers.NestJS, name: Providers.NestJS }
-    ];
-    this.base = this.providers[0];
+    this.providers = this.baseProviderService.getProvidersList();
+    this.base = this.baseProviderService.getCurrentProvider();
+  }
+
+  changeBase(newBaseProvider: BaseProvider): void {
+    this.baseProviderService.changeProvider(newBaseProvider);
   }
 }

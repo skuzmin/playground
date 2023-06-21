@@ -8,7 +8,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter()
   );
-  app.setGlobalPrefix('app/v1');
+  app.setGlobalPrefix('api/v1');
   await app.listen(7001, '0.0.0.0');
 }
 bootstrap();

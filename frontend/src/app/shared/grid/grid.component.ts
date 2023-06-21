@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { CrudItem } from 'src/app/models';
+import { GridItem, GridPayload } from './grid.model';
+import { GridActions } from './grid.constant';
 
 @Component({
   selector: 'app-grid',
@@ -9,21 +10,15 @@ import { CrudItem } from 'src/app/models';
 })
 export class GridComponent implements OnInit {
   public isAddRowVisible: boolean;
-  public newItem: CrudItem;
-  public data: Array<CrudItem>;
+  public newItem: GridItem;
+  @Input() data: Array<GridItem> = [];
+  @Output() action: EventEmitter<GridPayload> = new EventEmitter();
 
   ngOnInit(): void {
     this.cancel();
-    this.data = [
-      { id: '1', text: 'Row 1' },
-      { id: '2', text: 'Row 2' },
-      { id: '3', text: 'Row 3' },
-      { id: '4', text: 'Row 4' },
-      { id: '5', text: 'Row 5' },
-      { id: '6', text: 'Row 6' }
-    ];
   }
 
+  //#region Actions
   add(): void {
     this.isAddRowVisible = true;
   }
@@ -33,28 +28,29 @@ export class GridComponent implements OnInit {
     this.newItem = {id: '', text: ''};
   }
 
-  edit(item: CrudItem): void {
+  edit(item: GridItem): void {
     this.isAddRowVisible = true;
-    this.newItem = Object.create(item);
+    this.newItem = Object.assign({}, item);
   }
+  //#endregion
 
+  //#region API
   save(): void {
     if (!this.newItem.text.trim()) {
       return;
     }
     if(this.newItem.id) {
-      const index = this.data.findIndex((item: CrudItem) => item.id === this.newItem.id);
-      this.data[index] = this.newItem;
+      this.action.emit({action: GridActions.Update, data: this.newItem});
     } else {
-      this.newItem.id = Math.floor(Math.random() * 1000).toString();
-      this.data.push(this.newItem);
+      this.action.emit({action: GridActions.Create, data: this.newItem.text});
     }
     this.cancel();
   }
 
-  delete(item: CrudItem, index: number): void {
+  delete(item: GridItem): void {
     if(confirm(`Are you sure want to delete ID: ${item.id} ?`)) {
-      this.data.splice(index, 1);
+      this.action.emit({action: GridActions.Delete, data: item.id});
     }
   }
+  //#endregion
 }

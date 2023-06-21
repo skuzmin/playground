@@ -1,4 +1,4 @@
-export interface CrudItem {
+export interface GridItem {
     id: string;
     text: string;
 }

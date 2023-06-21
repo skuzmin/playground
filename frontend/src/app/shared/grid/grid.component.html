@@ -17,14 +17,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of data; let i = index">
+            <tr *ngFor="let item of data">
                 <td class="id">{{item.id}}</td>
                 <td>{{item.text}}</td>
                 <td class="action">
                     <button class="btn" (click)="edit(item)">Edit</button>
                 </td>
                 <td class="action">
-                    <button class="btn" (click)="delete(item, i)">Delete</button>
+                    <button class="btn" (click)="delete(item)">Delete</button>
                 </td>
             </tr>
         </tbody>
