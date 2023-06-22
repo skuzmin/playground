@@ -1,4 +1,4 @@
 export interface GridItem {
-    id: string;
+    id: number;
     text: string;
 }
