@@ -6,15 +6,15 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BaseProviderService {
-    private base: BehaviorSubject<BaseProvider>;
+    private base$: BehaviorSubject<BaseProvider>;
     private list: Array<BaseProvider>;
     constructor() {
         this.list = PROVIDERS_LIST;
-        this.base = new BehaviorSubject(this.list[0]);
+        this.base$ = new BehaviorSubject(this.list[0]);
     }
 
     getCurrentProvider(): BehaviorSubject<BaseProvider> {
-        return this.base;
+        return this.base$;
     }
 
     getProvidersList(): Array<BaseProvider> {
@@ -22,6 +22,6 @@ export class BaseProviderService {
     }
 
     changeProvider(newProvider: BaseProvider): void {
-        this.base.next(newProvider);
+        this.base$.next(newProvider);
     }
 }

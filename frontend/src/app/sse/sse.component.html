@@ -1,0 +1,8 @@
+<div class="app-sse">
+    <app-title title="SSE"></app-title>
+    <div class="content">
+        <div>Current Time : {{time}}</div>
+        <button class="btn" *ngIf="!isConnected" (click)="connect()">Connect</button>
+        <button class="btn" *ngIf="isConnected" (click)="close()">Disconnect</button>
+    </div>
+</div>

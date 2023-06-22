@@ -4,11 +4,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { CrudComponent } from './crud/crud.component';
+import { SseComponent } from './sse/sse.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CrudComponent
+    CrudComponent,
+    SseComponent
   ],
   imports: [
     SharedModule,

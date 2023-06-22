@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BaseProvider } from 'src/app/models/provider.model';
-import { BaseProviderService } from 'src/app/services';
+import { BaseProviderService, SseService } from 'src/app/services';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +11,7 @@ import { BaseProviderService } from 'src/app/services';
 export class NavbarComponent implements OnInit {
   public base: BaseProvider;
   public providers: Array<BaseProvider>;
-  constructor(private baseProviderService: BaseProviderService) {}
+  constructor(private baseProviderService: BaseProviderService, private sseService: SseService) {}
 
   ngOnInit(): void {
     this.providers = this.baseProviderService.getProvidersList();
@@ -19,6 +19,7 @@ export class NavbarComponent implements OnInit {
   }
 
   changeBase(newBaseProvider: BaseProvider): void {
+    this.sseService.close();
     this.baseProviderService.changeProvider(newBaseProvider);
   }
 }
