@@ -8,16 +8,16 @@ import { Prisma } from '@prisma/client';
 export class AppService {
   constructor(private prisma: PrismaService) { }
 
-  async getList(): Promise<GridItem[]> {
+  getList(): Promise<GridItem[]> {
     return this.prisma.items.findMany();
   }
 
-  async createItem(text: string): Promise<GridItem> {
+  createItem(text: string): Promise<GridItem> {
     const data = { id: Math.floor(Math.random() * 1000), text };
     return this.prisma.items.create({ data });
   }
 
-  async updateItem(where: Prisma.itemsWhereUniqueInput, data: GridItem): Promise<GridItem> {
+  updateItem(where: Prisma.itemsWhereUniqueInput, data: GridItem): Promise<GridItem> {
     return this.prisma.items.update({ data, where });
   }
 
