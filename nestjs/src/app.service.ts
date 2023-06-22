@@ -22,6 +22,6 @@ export class AppService {
   }
 
   async deleteItem(where: Prisma.itemsWhereUniqueInput): Promise<void> {
-    this.prisma.items.delete({ where });
+    await this.prisma.items.delete({ where });
   }
 }

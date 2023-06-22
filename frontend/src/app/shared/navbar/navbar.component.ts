@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.providers = this.baseProviderService.getProvidersList();
-    this.base = this.baseProviderService.getCurrentProvider();
+    this.baseProviderService.getCurrentProvider().subscribe((p: BaseProvider) => this.base = p);
   }
 
   changeBase(newBaseProvider: BaseProvider): void {

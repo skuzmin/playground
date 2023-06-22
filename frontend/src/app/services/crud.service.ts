@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, take } from 'rxjs';
 
-import { CRUD } from '../models/provider.model';
+import { BaseProvider, CRUD } from '../models/provider.model';
 import { BaseProviderService } from './base-provider.service';
 import { GridItem } from '../shared/grid/grid.model';
 
@@ -10,7 +10,7 @@ import { GridItem } from '../shared/grid/grid.model';
 export class CrudService implements CRUD {
     private url: string;
     constructor(private http: HttpClient, private baseProviderService: BaseProviderService) { 
-        this.url = `${this.baseProviderService.getCurrentProvider().url}/main`;
+        this.baseProviderService.getCurrentProvider().subscribe((p: BaseProvider) => this.url = `${p.url}/main`);
     }
 
     getList(): Observable<GridItem[]> {

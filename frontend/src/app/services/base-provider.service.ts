@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 
 import { BaseProvider } from '../models/provider.model';
 import { PROVIDERS_LIST } from '../constants';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BaseProviderService {
-    private base: BaseProvider;
+    private base: BehaviorSubject<BaseProvider>;
     private list: Array<BaseProvider>;
     constructor() {
         this.list = PROVIDERS_LIST;
-        this.base = this.list[0];
+        this.base = new BehaviorSubject(this.list[0]);
     }
 
-    getCurrentProvider(): BaseProvider {
+    getCurrentProvider(): BehaviorSubject<BaseProvider> {
         return this.base;
     }
 
@@ -21,6 +22,6 @@ export class BaseProviderService {
     }
 
     changeProvider(newProvider: BaseProvider): void {
-        this.base = newProvider;
+        this.base.next(newProvider);
     }
 }
