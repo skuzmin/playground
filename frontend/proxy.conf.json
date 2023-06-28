@@ -1,12 +1,19 @@
 {
-    "/nestjs/*": {
-      "target": "http://localhost:7001/api/v1",
-      "secure": false,
-      "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": {
-        "^/nestjs": ""
-      }
+  "/nestjsws/*": {
+    "target": "ws://192.168.56.1:8080/",
+    "secure": false,
+    "ws": true,
+    "pathRewrite": {
+      "^/nestjsws": ""
+    }
+  },
+  "/nestjs/*": {
+    "target": "http://192.168.56.1:7001/api/v1",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/nestjs": ""
     }
   }
-  
+}

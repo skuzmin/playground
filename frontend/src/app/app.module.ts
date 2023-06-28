@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { CrudComponent } from './crud/crud.component';
 import { SseComponent } from './sse/sse.component';
+import { WsComponent } from './ws/ws.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CrudComponent,
-    SseComponent
+    SseComponent,
+    WsComponent
   ],
   imports: [
     SharedModule,
