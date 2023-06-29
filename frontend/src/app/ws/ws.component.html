@@ -1,4 +1,8 @@
 <div class="app-ws">
     <app-title title="WS"></app-title>
-    <button class="btn" (click)="sendMessage()">TEST</button>
+    <div class="content">
+        <div class="line" *ngFor="let item of list">{{item}}</div>
+        <input #input class="input" placeholder="Text" [(ngModel)]="text"/>
+        <button class="btn" (click)="sendMessage()" [disabled]="!text">SEND</button>
+    </div>
 </div>

@@ -1,0 +1,16 @@
+.app-ws {
+    .content {
+        max-width: 480px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .line {
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        padding: 0 0.5rem;
+        color: var(--basic-black);
+        background-color: var(--basic-color);
+    }
+}

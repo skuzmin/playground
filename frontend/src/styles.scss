@@ -2,6 +2,7 @@
 :root {
     --basic-white: #fff;
     --basic-color: #c2c2c2;
+    --basic-black: #000;
     --basic-color-bg: #0f553c;
     --navbar-color-bg: #053122;
     --grid-header-color-bg: #530707;
@@ -45,4 +46,11 @@ body {
             color: var(--button-color-bg);
         }
     }
+}
+
+.input {
+    line-height: 2rem;
+    padding: 0 0.5rem;
+    box-shadow: none;
+    border: none;
 }
