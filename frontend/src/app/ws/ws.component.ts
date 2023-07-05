@@ -20,8 +20,9 @@ export class WsComponent implements OnInit {
     this.wsService.connect()
       .pipe(filter((res: Event) => res.type !== 'open'))
       .subscribe({
-        next: (res: any) => {
-          const { time, text } = JSON.parse(res);
+        next: (res: Event) => {
+          const message = res as MessageEvent<string>;
+          const { time, text } = JSON.parse(message.data);
           this.list.push(`${time} :: ${text}`);
         },
         error: () => console.log('WS ERROR')

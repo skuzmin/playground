@@ -1,4 +1,11 @@
-import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import {
+    OnGatewayConnection,
+    OnGatewayDisconnect,
+    OnGatewayInit,
+    SubscribeMessage,
+    WebSocketGateway,
+    WebSocketServer
+} from '@nestjs/websockets';
 import { Server } from 'ws';
 
 @WebSocketGateway(8080)
@@ -19,7 +26,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     }
 
     @SubscribeMessage('text')
-    handleText(_client: any, data: string) {
+    handleText(_client: any, data: string): void {
         const payload = JSON.stringify({ time: new Date().toTimeString().split(' ')[0], text: data });
         this.clients.forEach((c: any) => c.send(payload));
     }

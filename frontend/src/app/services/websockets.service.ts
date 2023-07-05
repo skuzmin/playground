@@ -13,10 +13,10 @@ export class WebsocketsService {
         this.baseProviderService.getCurrentProvider().subscribe((p: BaseProvider) => this.socket = new WebSocket(`${protocol}//${host}/${p.url}ws`));
     }
 
-    connect(): Observable<Event> {
+    connect(): Observable<Event | MessageEvent> {
         return new Observable((observer: Subscriber<Event>) => {
             this.socket.onopen = (event: Event) => observer.next(event);
-            this.socket.onmessage = (event: MessageEvent) => observer.next(event.data);
+            this.socket.onmessage = (event: MessageEvent<string>) => observer.next(event);
             this.socket.onerror = (error: Event) => observer.error(error);
             this.socket.onclose = () => observer.complete();
 
