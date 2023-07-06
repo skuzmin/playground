@@ -1,7 +1,8 @@
 <div class="app-ws">
     <app-title title="WS"></app-title>
     <div class="content">
-        <div class="line" *ngFor="let item of list">{{item}}</div>
+        <pre><b>COMMANDS: color, number, cancel</b></pre>
+        <div class="line" [style.backgroundColor]="colorResult">{{numberResult}}</div>
         <input #input class="input" placeholder="Text" [(ngModel)]="text"/>
         <button class="btn" (click)="sendMessage()" [disabled]="!text">SEND</button>
     </div>

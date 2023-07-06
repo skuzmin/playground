@@ -10,20 +10,26 @@ import { WebsocketsService } from '../services';
 })
 export class WsComponent implements OnInit {
   public text: string;
-  public list: Array<string>;
+  public numberResult: string;
+  public colorResult: string;
   @ViewChild('input') private input: ElementRef;
   constructor(private wsService: WebsocketsService) { }
 
   ngOnInit(): void {
     this.text = '';
-    this.list = [];
+    this.numberResult = '';
+    this.colorResult = '';
     this.wsService.connect()
       .pipe(filter((res: Event) => res.type !== 'open'))
       .subscribe({
         next: (res: Event) => {
+          console.log(res);
           const message = res as MessageEvent<string>;
-          const { time, text } = JSON.parse(message.data);
-          this.list.push(`${time} :: ${text}`);
+          if (message.data.length > 3) { // random number 0-999, if length > 3 then it's #color
+            this.colorResult = '#' + message.data;
+          } else {
+            this.numberResult = message.data;
+          }
         },
         error: () => console.log('WS ERROR')
       })
@@ -33,4 +39,5 @@ export class WsComponent implements OnInit {
     this.wsService.send(this.text);
     this.input.nativeElement.value = '';
   }
+
 }

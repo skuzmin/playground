@@ -21,7 +21,7 @@ export class UwsAdapter implements WebSocketAdapter {
             if (token) {
                 this.listenSocket = token;
             } else {
-                console.log('ERROR');
+                console.log('UWS START ERROR!');
             }
         }).any('/*', (res: UWS.HttpResponse) => {
             res.end('Nothing to see here!');
@@ -41,17 +41,20 @@ export class UwsAdapter implements WebSocketAdapter {
     }
 
     bindMessageHandlers(ws: UWSEmitterSocket, handlers: Array<MessageMappingProperties>, process: (data: any) => Observable<any>): void {
+        const handlersMap: Record<string, Function> = {};
+        handlers.forEach((h: MessageMappingProperties) => handlersMap[h.message] = h.callback);
+
         fromEvent(ws.emitter, 'message')
             .pipe(
                 mergeMap((data: { message: ArrayBuffer, isBinary: boolean }) => {
                     const buffer = Buffer.from(data.message).toString('utf-8');
                     const message = JSON.parse(buffer);
-                    const messageHandler = handlers.find((handler: MessageMappingProperties) => handler.message === message.event);
-                    return !messageHandler ? EMPTY : process(messageHandler.callback(message.data));
+                    const messageHandlerCallback = handlersMap[message.event];
+                    return !messageHandlerCallback ? EMPTY : process(messageHandlerCallback(message.data));
                 }),
                 filter((result: any) => result),
             )
-            .subscribe(response => ws.send(JSON.stringify(response)));
+            .subscribe((response: any) => ws.send(JSON.stringify(response)));
     }
 
     close(): void {
