@@ -43,12 +43,12 @@ func main() {
 		id := context.Params("id")
 		data := GridItem{}
 		if err := context.BodyParser(&data); err != nil {
-			return context.SendStatus(400)
+			return context.SendStatus(fiber.StatusBadRequest)
 		}
 
 		index := slices.IndexFunc(mock, func(item GridItem) bool { return item.ID == id })
 		if index != -1 {
-			return context.SendStatus(400)
+			return context.SendStatus(fiber.StatusBadRequest)
 		}
 
 		mock[index] = data
@@ -59,7 +59,7 @@ func main() {
 		id := context.Params("id")
 		index := slices.IndexFunc(mock, func(item GridItem) bool { return item.ID == id })
 		mock = slices.Delete(mock, index, index+1)
-		return context.Send(nil)
+		return context.SendStatus(fiber.StatusNoContent)
 	})
 
 	log.Fatal(app.Listen(":7002"))
