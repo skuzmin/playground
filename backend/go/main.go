@@ -1,9 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
-	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/exp/slices"
@@ -27,12 +27,12 @@ func main() {
 	})
 
 	app.Post("api/v1/main", func(context *fiber.Ctx) error {
-		var text string
-		if err := context.BodyParser(&text); err != nil {
-			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		text := string(context.Body())
+		if text == "" {
+			return context.SendStatus(fiber.StatusBadRequest)
 		}
 		newItem := GridItem{
-			ID:   strconv.Itoa(rand.Intn(100)),
+			ID:   fmt.Sprint(rand.Intn(100)),
 			Text: text,
 		}
 		mock = append(mock, newItem)
@@ -47,7 +47,7 @@ func main() {
 		}
 
 		index := slices.IndexFunc(mock, func(item GridItem) bool { return item.ID == id })
-		if index != -1 {
+		if index == -1 {
 			return context.SendStatus(fiber.StatusBadRequest)
 		}
 
