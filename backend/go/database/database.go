@@ -1,30 +1,46 @@
 package database
 
 import (
+	"fmt"
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
-type DbInstance struct {
-	Db *gorm.DB
+var Database *gorm.DB
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 }
 
-var Database DbInstance
-
 func ConnectDb() {
-	db, err := gorm.Open(postgres.Open("host=localhost port=5432 user=adm1n dbname=playground password=Passw0rd sslmode=disable"), &gorm.Config{})
+	connectionString := getConnectionString()
+	db, err := gorm.Open(postgres.Open(connectionString), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal("Failed to connect to db! \n", err.Error())
 		os.Exit(2)
 	}
 
-	log.Println("Connected to the db successfully")
+	log.Println("Connected to the db successfully!")
 	db.Logger = logger.Default.LogMode(logger.Info)
 
-	Database = DbInstance{Db: db}
+	Database = db
+}
+
+func getConnectionString() string {
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbUser := os.Getenv("DB_USER")
+	dbName := os.Getenv("DB_NAME")
+	dbPassword := os.Getenv("DB_PASSWORD")
+
+	return fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", dbHost, dbPort, dbUser, dbName, dbPassword)
 }
