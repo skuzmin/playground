@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-
-import { GridItem } from './models';
-import { PrismaService } from 'prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 
+import { GridItem } from '../models';
+import { PrismaService } from 'src/shared/prisma/prisma.service';
+
 @Injectable()
-export class AppService {
+export class MainService {
   constructor(private prisma: PrismaService) { }
 
   getList(): Promise<GridItem[]> {

@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PrismaService } from 'prisma/prisma.service';
-import { SseController } from './sse.controller';
+
+import { SseController } from './sse/sse.controller';
 import { AppGateway } from './app.gateway';
+import { MainModule } from './main/main.module';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController, SseController],
-  providers: [AppService, PrismaService, AppGateway],
+  imports: [MainModule, SharedModule],
+  controllers: [SseController],
+  providers: [AppGateway],
 })
-export class AppModule {}
+export class AppModule { }
