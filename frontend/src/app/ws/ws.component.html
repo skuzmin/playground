@@ -2,8 +2,11 @@
     <app-title title="WS"></app-title>
     <div class="content">
         <pre><b>COMMANDS: color, number, cancel</b></pre>
-        <div class="line" [style.backgroundColor]="colorResult">{{numberResult}}</div>
-        <input #input class="input" placeholder="Text" [(ngModel)]="text"/>
-        <button class="btn" (click)="sendMessage()" [disabled]="!text">SEND</button>
+        <button class="btn" (click)="connect()" *ngIf="!isConnected">Connect</button>
+        <ng-container *ngIf="isConnected">
+            <div class="line" [style.backgroundColor]="colorResult">{{numberResult}}</div>
+            <input #input class="input" placeholder="Text" [(ngModel)]="text"/>
+            <button class="btn" (click)="sendMessage()" [disabled]="!text">SEND</button>
+        </ng-container>
     </div>
 </div>

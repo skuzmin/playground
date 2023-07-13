@@ -15,5 +15,14 @@
     "pathRewrite": {
       "^/nestjs": ""
     }
+  },
+  "/golang/*": {
+    "target": "http://192.168.56.1:7002/api/v1",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/golang": ""
+    }
   }
 }

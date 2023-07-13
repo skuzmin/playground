@@ -10,8 +10,11 @@ export class SseService {
     private eventSource: EventSource;
     private isConnected$: BehaviorSubject<boolean>;
     constructor(private zone: NgZone, private baseProviderService: BaseProviderService) {
-        this.baseProviderService.getCurrentProvider().subscribe((p: BaseProvider) => this.url = `${p.url}/sse`);
         this.isConnected$ = new BehaviorSubject(false);
+        this.baseProviderService.getCurrentProvider().subscribe((p: BaseProvider) => {
+            this.url = `${p.url}/sse`;
+            this.close();
+        });
     }
 
     getServerSentEvent(): Observable<MessageEvent> {
@@ -24,7 +27,7 @@ export class SseService {
     }
 
     close(): void {
-        this.eventSource.close();
+        this.eventSource?.close();
         this.isConnected$.next(false);
     }
 
