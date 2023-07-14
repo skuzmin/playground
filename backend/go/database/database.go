@@ -1,17 +1,15 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	_ "github.com/lib/pq"
+	"github.com/volatiletech/sqlboiler/v4/boil"
 )
-
-var Database *gorm.DB
 
 func init() {
 	err := godotenv.Load()
@@ -22,17 +20,15 @@ func init() {
 
 func ConnectDb() {
 	connectionString := getConnectionString()
-	db, err := gorm.Open(postgres.Open(connectionString), &gorm.Config{})
-
+	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		log.Fatal("Failed to connect to db! \n", err.Error())
 		os.Exit(2)
 	}
 
 	log.Println("Connected to the db successfully!")
-	db.Logger = logger.Default.LogMode(logger.Info)
 
-	Database = db
+	boil.SetDB(db)
 }
 
 func getConnectionString() string {

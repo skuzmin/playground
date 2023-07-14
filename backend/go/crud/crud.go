@@ -1,10 +1,11 @@
 package crud
 
 import (
-	"playground/database"
-	"playground/models"
+	"context"
+	"playground/db/models"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
 func SetupRoutes(app *fiber.App) {
@@ -16,9 +17,13 @@ func SetupRoutes(app *fiber.App) {
 
 func getItems(ctx *fiber.Ctx) error {
 	// create structure for items
-	items := []models.Item{}
+	// items := []models.Item{}
 	// get items from db and put them into scructure
-	database.Database.Find(&items)
+	// database.Database.Find(&items)
+	items, err := models.Items().All(context.Background(), boil.GetContextDB())
+	if err != nil {
+		return ctx.SendStatus(fiber.StatusBadRequest)
+	}
 	// return response with items
 	return ctx.Status(fiber.StatusOK).JSON(items)
 }
@@ -33,14 +38,14 @@ func createItem(ctx *fiber.Ctx) error {
 	// create new structure/ new empty item
 	newItem := models.Item{Text: text}
 	// create record in db and put it into newItem
-	database.Database.Create(&newItem)
+	// database.Database.Create(&newItem)
 	// return response with new item
 	return ctx.Status(fiber.StatusOK).JSON(newItem)
 }
 
 func updateItem(ctx *fiber.Ctx) error {
 	// get item ID from url
-	id := ctx.Params("id")
+	// id := ctx.Params("id")
 	// create item update from body and validate it
 	var newItem models.Item
 	if err := ctx.BodyParser(&newItem); err != nil {
@@ -48,20 +53,20 @@ func updateItem(ctx *fiber.Ctx) error {
 	}
 	// create empty item/structure and fill it with data from db(find item for update by id)
 	item := models.Item{}
-	database.Database.Find(&item, "id = ?", id)
+	// database.Database.Find(&item, "id = ?", id)
 	// update item fields
 	item.Text = newItem.Text
 	// save item to db (update)
-	database.Database.Save(&item)
+	// database.Database.Save(&item)
 	// return response with updated item
 	return ctx.Status(fiber.StatusOK).JSON(item)
 }
 
 func deleteItem(ctx *fiber.Ctx) error {
 	// get item ID from url
-	id := ctx.Params("id")
+	// id := ctx.Params("id")
 	// delete item from db dy id
-	database.Database.Delete(&models.Item{}, "id = ?", id)
+	// database.Database.Delete(&models.Item{}, "id = ?", id)
 	// send successful response (item deleted)
 	return ctx.SendStatus(fiber.StatusNoContent)
 }
