@@ -7,6 +7,7 @@ import (
 
 	"playground/crud"
 	"playground/database"
+	"playground/sse"
 )
 
 func main() {
@@ -16,6 +17,8 @@ func main() {
 	database.ConnectDb()
 	// init crud routes
 	crud.SetupRoutes(app)
+	// init sse
+	sse.SetupSee(app)
 	// start server
 	log.Fatal(app.Listen(":7002"))
 }

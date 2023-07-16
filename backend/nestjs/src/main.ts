@@ -7,12 +7,12 @@ import * as os from 'os';
 import { AppModule } from './app.module';
 import { UwsAdapter } from './uws/uws.adapter';
 
-const cluster = _cluster as unknown as _cluster.Cluster; 
-if (cluster.isPrimary) {
-  for (let i = 0; i < os.cpus().length; i++) {
-    cluster.fork();
-  }
-} else {
+// const cluster = _cluster as unknown as _cluster.Cluster; 
+// if (cluster.isPrimary) {
+//   for (let i = 0; i < os.cpus().length; i++) {
+//     cluster.fork();
+//   }
+// } else {
   async function bootstrap() {
     // Fastify
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -34,6 +34,6 @@ if (cluster.isPrimary) {
     await app.listen(7001, '0.0.0.0');
   }
   bootstrap();
-}
+// }
 
 
