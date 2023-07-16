@@ -1,15 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import * as _cluster from 'cluster';
-import * as os from 'os';
+import { cpus } from 'os';
+import cluster from 'node:cluster';
 
 import { AppModule } from './app.module';
 import { UwsAdapter } from './uws/uws.adapter';
 
-// const cluster = _cluster as unknown as _cluster.Cluster; 
 // if (cluster.isPrimary) {
-//   for (let i = 0; i < os.cpus().length; i++) {
+//   for (let i = 0; i < cpus().length; i++) {
 //     cluster.fork();
 //   }
 // } else {
