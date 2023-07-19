@@ -8,6 +8,7 @@ import (
 	"playground/crud"
 	"playground/database"
 	"playground/sse"
+	"playground/ws"
 )
 
 func main() {
@@ -19,6 +20,8 @@ func main() {
 	crud.SetupRoutes(app)
 	// init sse
 	sse.SetupSee(app)
+	// init ws
+	ws.SetupWs(app)
 	// start server
 	log.Fatal(app.Listen(":7002"))
 }

@@ -16,6 +16,14 @@
       "^/nestjs": ""
     }
   },
+  "/golangws/*": {
+    "target": "ws://192.168.56.1:7002/ws",
+    "secure": false,
+    "ws": true,
+    "pathRewrite": {
+      "^/golangws": ""
+    }
+  },
   "/golang/*": {
     "target": "http://192.168.56.1:7002/api/v1",
     "secure": false,
