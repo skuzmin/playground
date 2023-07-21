@@ -7,7 +7,7 @@ export class ImagesService {
 
   constructor() {
     this.minioClient = new Client({
-      endPoint: 'localhost',
+      endPoint: '172.29.0.2',
       port: 9000,
       useSSL: false,
       accessKey: process.env.MINIO_LOGIN,
@@ -15,10 +15,18 @@ export class ImagesService {
     });
   }
 
+  async generatePresignedUrl(objectName: string): Promise<string> {
+    try {
+      return await this.minioClient.presignedGetObject('images', objectName, 3600);
+    } catch (err) {
+      console.error('Error generating presigned URL:', err);
+      throw err;
+    }
+  }
+
   async uploadImage(bucketName: string, objectName: string, file: Buffer): Promise<void> {
     try {
       await this.minioClient.putObject(bucketName, objectName, file);
-      console.log('Image uploaded successfully!');
     } catch (err) {
       console.error('Error uploading image:', err);
       throw err;

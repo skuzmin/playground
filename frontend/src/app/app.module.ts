@@ -6,13 +6,15 @@ import { SharedModule } from './shared/shared.module';
 import { CrudComponent } from './crud/crud.component';
 import { SseComponent } from './sse/sse.component';
 import { WsComponent } from './ws/ws.component';
+import { ImageConvertorComponent } from './image-convertor/image-convertor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CrudComponent,
     SseComponent,
-    WsComponent
+    WsComponent,
+    ImageConvertorComponent
   ],
   imports: [
     SharedModule,
