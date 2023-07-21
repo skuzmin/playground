@@ -1,0 +1,27 @@
+import { Injectable } from '@nestjs/common';
+import { Client } from 'minio';
+
+@Injectable()
+export class ImagesService {
+  private minioClient: Client;
+
+  constructor() {
+    this.minioClient = new Client({
+      endPoint: 'localhost',
+      port: 9000,
+      useSSL: false,
+      accessKey: process.env.MINIO_LOGIN,
+      secretKey: process.env.MINIO_PASSWORD
+    });
+  }
+
+  async uploadImage(bucketName: string, objectName: string, file: Buffer): Promise<void> {
+    try {
+      await this.minioClient.putObject(bucketName, objectName, file);
+      console.log('Image uploaded successfully!');
+    } catch (err) {
+      console.error('Error uploading image:', err);
+      throw err;
+    }
+  }
+}

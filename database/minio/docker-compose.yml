@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  minio:
+    image: minio/minio
+    container_name: minio_server
+    restart: always
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ROOT_USER: adm1n
+      MINIO_ROOT_PASSWORD: Passw0rd
+    command: server /data
+
+volumes:
+  minio_data:
