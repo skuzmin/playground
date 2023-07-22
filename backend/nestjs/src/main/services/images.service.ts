@@ -7,7 +7,7 @@ export class ImagesService {
 
   constructor() {
     this.minioClient = new Client({
-      endPoint: '172.29.0.2',
+      endPoint: 'localhost',
       port: 9000,
       useSSL: false,
       accessKey: process.env.MINIO_LOGIN,

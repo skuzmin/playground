@@ -7,6 +7,7 @@ import (
 
 	"playground/crud"
 	"playground/database"
+	"playground/imageTransform"
 	"playground/sse"
 	"playground/ws"
 )
@@ -22,6 +23,8 @@ func main() {
 	sse.SetupSee(app)
 	// init ws
 	ws.SetupWs(app)
+	//
+	imageTransform.SetupImageTransform()
 	// start server
 	log.Fatal(app.Listen(":7002"))
 }
