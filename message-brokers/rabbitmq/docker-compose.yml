@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+      - "5672:5672"  # RabbitMQ main communication port
+      - "15672:15672"  # RabbitMQ management UI port
+    volumes:
+      - ./data:/var/lib/rabbitmq/mnesia  # Persist data
+    restart: always
