@@ -12,7 +12,8 @@ export class ImagesController {
   @Post()
   @HttpCode(201)
   async uploadImage(@Req() req: FastifyRequest, @Res() res: FastifyReply): Promise<void> {
-    const data = await req.file();
+    const options = { limits: { fileSize: 3 * 1024 * 1024 } };
+    const data = await req.file(options);
     const file = await data.toBuffer();
     const name = data.filename;
     try {
@@ -23,7 +24,7 @@ export class ImagesController {
     }
     try {
       console.log('MESSAGE SENT');
-      await lastValueFrom(this.client.send("images", {name: 'test'}));
+      await lastValueFrom(this.client.send("images", { name: 'test' }));
     } catch (err: unknown) {
       console.error('Error uploading image: ', err);
       throw err;
