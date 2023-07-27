@@ -22,7 +22,6 @@ import (
 
 const (
 	QUEUE_NAME       = "images_queue"
-	EXCHANGE_NAME    = "images_exchange"
 	REPLY_QUEUE_NAME = "images_queue_reply"
 	BUCKET_NAME      = "images"
 )
@@ -39,20 +38,12 @@ func ListenForImages() {
 		errorHandler.FailOnError(err, "Failed to open a channel")
 		defer channel.Close()
 
-		// Declare the queue and reply queue
-		queue, err := channel.QueueDeclare(QUEUE_NAME, false, false, false, false, nil)
+		// Declare the queue
+		queue, err := channel.QueueDeclare(QUEUE_NAME, true, false, false, false, nil)
 		errorHandler.FailOnError(err, "Failed to declare a queue")
 
 		replyQueue, err := channel.QueueDeclare(REPLY_QUEUE_NAME, false, false, false, false, nil)
 		errorHandler.FailOnError(err, "Failed to declare a reply queue")
-
-		// Declare the custom exchange
-		err = channel.ExchangeDeclare(EXCHANGE_NAME, "direct", true, false, false, false, nil)
-		errorHandler.FailOnError(err, "Failed to declare an exchange")
-
-		// Bind the reply queue to the custom exchange
-		err = channel.QueueBind(replyQueue.Name, "", EXCHANGE_NAME, false, nil)
-		errorHandler.FailOnError(err, "Failed to bind reply queue to exchange")
 
 		// Consume messages from the queue
 		msgs, err := channel.Consume(queue.Name, "", true, false, false, false, nil)
@@ -67,10 +58,14 @@ func ListenForImages() {
 			err = transformImage(BUCKET_NAME, payload.Data["name"])
 			errorHandler.FailOnError(err, "Transform image error")
 
-			err = channel.Publish("", msg.ReplyTo, false, false, amqp.Publishing{
-				ContentType:   "text/plain",
+			// create response for nest, because its serializer will die
+			response := models.RabbitMqResponse{Result: "done"}
+			jsonResponse, err := json.Marshal(response)
+			errorHandler.FailOnError(err, "Broken json")
+
+			err = channel.Publish("", replyQueue.Name, false, false, amqp.Publishing{
 				CorrelationId: msg.CorrelationId,
-				Body:          []byte("done"),
+				Body:          jsonResponse,
 			})
 			errorHandler.FailOnError(err, "Failed to send response")
 		}

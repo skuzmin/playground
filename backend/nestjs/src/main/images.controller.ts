@@ -1,6 +1,6 @@
 import { Controller, HttpCode, Inject, Post, Req, Res, } from '@nestjs/common';
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RmqRecordBuilder } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
 
 import { ImagesService } from './services';
@@ -23,8 +23,7 @@ export class ImagesController {
       throw err;
     }
     try {
-      const response = await lastValueFrom(this.client.send("images", { name }));
-      console.log('HALELUYA: ', response);
+      await lastValueFrom(this.client.send({ cmd: 'images' }, { name }));
     } catch (err: unknown) {
       console.error('Error uploading image: ', err);
       throw err;

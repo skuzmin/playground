@@ -9,6 +9,9 @@ import (
 )
 
 // RABBITMQ
+type RabbitMqResponse struct {
+	Result string `json:"result"`
+}
 
 type RabbitMQPayload struct {
 	Data map[string]string `json:"data"`

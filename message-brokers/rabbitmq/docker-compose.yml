@@ -2,10 +2,11 @@ version: '3.8'
 
 services:
   rabbitmq:
-    image: rabbitmq:latest
+    image: rabbitmq:management 
+    container_name: "pg_rabbitmq"
     ports:
-      - "5672:5672"  # RabbitMQ main communication port
-      - "15672:15672"  # RabbitMQ management UI port
+      - "5672:5672"
+      - "15672:15672"
     volumes:
-      - ./data:/var/lib/rabbitmq/mnesia  # Persist data
+      - ./data:/var/lib/rabbitmq/mnesia
     restart: always
