@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/valyala/fasthttp"
 
+	"playground/errorHandler"
 	"playground/models"
 )
 
@@ -29,20 +30,13 @@ func sseHandler(ctx *fiber.Ctx) error {
 			// create message and stringify it
 			msg := models.MessageEvent{Time: time.Now().UnixMilli()}
 			jsonData, jsonErr := json.Marshal(msg)
-
-			if jsonErr != nil {
-				fmt.Println("Error marshaling JSON:", jsonErr)
-				return
-			}
+			errorHandler.FailOnError(jsonErr, "Error marshaling JSON")
 
 			// send message to writter in SSE format {data: MSG}
 			fmt.Fprintf(writer, "data: %s\n\n", jsonData)
 			// flush writter (to send msg immediately)
 			flushErr := writer.Flush()
-			if flushErr != nil {
-				fmt.Printf("Error while flushing: %v. Closing http connection.\n", flushErr)
-				break
-			}
+			errorHandler.FailOnError(flushErr, "Error while flushing")
 			// sleep for 1 second (to send data every second)
 			time.Sleep(1 * time.Second)
 		}

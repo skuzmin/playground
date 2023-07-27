@@ -8,6 +8,12 @@ import (
 	"golang.org/x/exp/slices"
 )
 
+// RABBITMQ
+
+type RabbitMQPayload struct {
+	Data map[string]string `json:"data"`
+}
+
 // CRUD
 type Item struct {
 	ID   uint   `json:"id" gorm:"primaryKey"`
@@ -25,7 +31,7 @@ const (
 	CANCEL = "cancel"
 )
 
-type Payload struct {
+type WsPayload struct {
 	Event string `json:"event"`
 	Data  string `json:"data"`
 }

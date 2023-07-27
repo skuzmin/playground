@@ -8,22 +8,19 @@ import (
 
 	"playground/crud"
 	"playground/database"
+	"playground/errorHandler"
 
-	// "playground/imageTransform"
-	"playground/minio"
+	"playground/imageTransform"
 	"playground/sse"
 	"playground/ws"
 )
 
 func init() {
 	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	errorHandler.FailOnError(err, "Error loading .env file")
 }
 
 func main() {
-	log.Println("MAIN")
 	// create app
 	app := fiber.New()
 	// connect to db
@@ -34,10 +31,7 @@ func main() {
 	sse.SetupSee(app)
 	// init ws
 	ws.SetupWs(app)
-	//
-	// imageTransform.SetupImageTransform()
-	//
-	minio.Run()
-	// start server
+	// image transform (minio + rabbitmq)
+	imageTransform.ListenForImages()
 	log.Fatal(app.Listen(":7002"))
 }

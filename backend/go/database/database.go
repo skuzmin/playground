@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"playground/errorHandler"
 	"time"
 
 	"gorm.io/driver/postgres"
@@ -19,16 +20,11 @@ func ConnectDb() {
 		PrepareStmt:            true,
 		SkipDefaultTransaction: true,
 	})
-	if err != nil {
-		log.Fatal("Failed to connect to db! \n", err.Error())
-		os.Exit(2)
-	}
+	errorHandler.FailOnError(err, "Failed to connect to db!")
 
 	sqlDB, err := db.DB()
-	if err != nil {
-		log.Fatal("Failed to retrieve underlying SQL database! \n", err.Error())
-		os.Exit(2)
-	}
+	errorHandler.FailOnError(err, "Failed to retrieve underlying SQL database!")
+
 	// Set connection pool configuration
 	maxIdleConnections := 100 // Maximum number of idle connections in the pool
 	maxOpenConnections := 300 // Maximum number of open connections in the pool

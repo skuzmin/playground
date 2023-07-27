@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"playground/errorHandler"
 	"playground/models"
 	"time"
 
@@ -26,7 +27,7 @@ func SetupWs(app *fiber.App) {
 }
 
 func handleWebSocket(client *websocket.Conn) {
-	var payload models.Payload
+	var payload models.WsPayload
 
 	defer func() {
 		// Notify when the client disconnects
@@ -38,16 +39,10 @@ func handleWebSocket(client *websocket.Conn) {
 	for {
 		// read and convert data []byte to struct and validate all annoying cases
 		msgType, msg, err := client.ReadMessage()
-		if err != nil {
-			log.Println("Read: ", err)
-			break
-		}
+		errorHandler.FailOnError(err, "Read error")
 
 		err = json.Unmarshal(msg, &payload)
-		if err != nil {
-			log.Println("Wrong payload")
-			return
-		}
+		errorHandler.FailOnError(err, "Wrong payload")
 
 		if msgType != websocket.TextMessage {
 			log.Printf("Not supported message type")
@@ -72,17 +67,11 @@ func broadcast(pubSub models.PubSub) {
 		for {
 			color := getRandomColor()
 			err := pubSub.Publish(models.COLOR, color)
-			if err != nil {
-				log.Println("Publish (color): ", err)
-				break
-			}
+			errorHandler.FailOnError(err, "Publish (color)")
 
 			number := getRandomNumber()
 			err = pubSub.Publish(models.NUMBER, number)
-			if err != nil {
-				log.Println("Publish (number): ", err)
-				break
-			}
+			errorHandler.FailOnError(err, "Publish (number)")
 
 			time.Sleep(2 * time.Second)
 		}
