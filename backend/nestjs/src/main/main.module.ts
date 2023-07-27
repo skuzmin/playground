@@ -16,8 +16,9 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         options: {
           urls: ['amqp://localhost:5672'],
           queue: 'images_queue',
+          replyQueue: "images_queue_reply",
           queueOptions: {
-            durable: false
+            durable: false,
           },
         },
       },
@@ -26,4 +27,4 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   controllers: [MainController, ImagesController],
   providers: [MainService, ImagesService],
 })
-export class MainModule {}
+export class MainModule { }

@@ -15,7 +15,7 @@ export class ImagesController {
     const options = { limits: { fileSize: 3 * 1024 * 1024 } };
     const data = await req.file(options);
     const file = await data.toBuffer();
-    const name = data.filename;
+    const name = `${this.generateGUID()}-${data.filename}`;
     try {
       await this.imagesService.uploadImage('images', name, file);
     } catch (err: unknown) {
@@ -23,14 +23,23 @@ export class ImagesController {
       throw err;
     }
     try {
-      console.log('MESSAGE SENT');
-      await lastValueFrom(this.client.send("images", { name: 'test' }));
+      const response = await lastValueFrom(this.client.send("images", { name }));
+      console.log('HALELUYA: ', response);
     } catch (err: unknown) {
       console.error('Error uploading image: ', err);
       throw err;
     }
     const url = await this.imagesService.generatePresignedUrl(name);
     return res.send({ url });
+  }
+
+  generateGUID(): string {
+    const guidTemplate = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+    return guidTemplate.replace(/[xy]/g, (c: string) => {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 }
 
