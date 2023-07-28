@@ -9,4 +9,6 @@ services:
       - "15672:15672"
     volumes:
       - ./data:/var/lib/rabbitmq/mnesia
+      - ./definitions.json:/etc/rabbitmq/definitions.json:ro
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
     restart: always

@@ -21,9 +21,8 @@ import (
 )
 
 const (
-	QUEUE_NAME       = "images_queue"
-	REPLY_QUEUE_NAME = "images_queue_reply"
-	BUCKET_NAME      = "images"
+	QUEUE_NAME  = "images_queue"
+	BUCKET_NAME = "images"
 )
 
 func ListenForImages() {
@@ -38,15 +37,8 @@ func ListenForImages() {
 		errorHandler.FailOnError(err, "Failed to open a channel")
 		defer channel.Close()
 
-		// Declare the queue
-		queue, err := channel.QueueDeclare(QUEUE_NAME, true, false, false, false, nil)
-		errorHandler.FailOnError(err, "Failed to declare a queue")
-
-		replyQueue, err := channel.QueueDeclare(REPLY_QUEUE_NAME, false, false, false, false, nil)
-		errorHandler.FailOnError(err, "Failed to declare a reply queue")
-
 		// Consume messages from the queue
-		msgs, err := channel.Consume(queue.Name, "", true, false, false, false, nil)
+		msgs, err := channel.Consume(QUEUE_NAME, "", true, false, false, false, nil)
 		errorHandler.FailOnError(err, "Failed to register a consumer")
 
 		// Loop to receive and print messages
@@ -63,7 +55,7 @@ func ListenForImages() {
 			jsonResponse, err := json.Marshal(response)
 			errorHandler.FailOnError(err, "Broken json")
 
-			err = channel.Publish("", replyQueue.Name, false, false, amqp.Publishing{
+			err = channel.Publish("", msg.ReplyTo, false, false, amqp.Publishing{
 				CorrelationId: msg.CorrelationId,
 				Body:          jsonResponse,
 			})

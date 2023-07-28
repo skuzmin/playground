@@ -25,7 +25,7 @@ export class ImagesController {
     try {
       await lastValueFrom(this.client.send({ cmd: 'images' }, { name }));
     } catch (err: unknown) {
-      console.error('Error uploading image: ', err);
+      console.error('Error image transform: ', err);
       throw err;
     }
     const url = await this.imagesService.generatePresignedUrl(name);
