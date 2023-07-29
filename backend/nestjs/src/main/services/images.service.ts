@@ -15,14 +15,14 @@ export class ImagesService {
     });
   }
 
-  async generatePresignedUrl(objectName: string): Promise<string> {
-    try {
-      return await this.minioClient.presignedGetObject('images', objectName, 3600);
-    } catch (err) {
-      console.error('Error generating presigned URL:', err);
-      throw err;
-    }
-  }
+  // async generatePresignedUrl(objectName: string): Promise<string> {
+  //   try {
+  //     return await this.minioClient.presignedGetObject('images', objectName, 3600);
+  //   } catch (err) {
+  //     console.error('Error generating presigned URL:', err);
+  //     throw err;
+  //   }
+  // }
 
   async uploadImage(bucketName: string, objectName: string, file: Buffer): Promise<void> {
     try {

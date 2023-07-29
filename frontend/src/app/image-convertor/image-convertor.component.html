@@ -1,5 +1,7 @@
 <div class="app-image-convertor">
     <app-title title="NestJs <--> GoLang"></app-title>
-    <input class="upload" tabindex="-1" #upload type="file" (change)="onFileSelect($event)"/>
-    <button class="btn" (click)="upload.click()">Upload Image</button>
+    <img class="preview" *ngIf="imageUrl" [src]="imageUrl" alt="preview" />
+    <input class="upload" tabindex="-1" #upload type="file" (change)="onFileSelect($event)" />
+    <button *ngIf="!isLoading" class="btn" (click)="upload.click()">Upload Image</button>
+    <span *ngIf="isLoading">Uploading...</span>
 </div>

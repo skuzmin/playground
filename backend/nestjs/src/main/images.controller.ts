@@ -28,8 +28,7 @@ export class ImagesController {
       console.error('Error image transform: ', err);
       throw err;
     }
-    const url = await this.imagesService.generatePresignedUrl(name);
-    return res.send({ url });
+    return res.send({ url: `/images/${name}` });
   }
 
   generateGUID(): string {
