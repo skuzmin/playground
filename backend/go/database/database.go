@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"playground/errorHandler"
+	"playground/models"
 	"time"
 
 	"gorm.io/driver/postgres"
@@ -21,6 +22,10 @@ func ConnectDb() {
 		SkipDefaultTransaction: true,
 	})
 	errorHandler.FailOnError(err, "Failed to connect to db!")
+
+	// AutoMigrate models
+	err = db.AutoMigrate(&models.Item{})
+	errorHandler.FailOnError(err, "Failed ot AutoMigrate models")
 
 	sqlDB, err := db.DB()
 	errorHandler.FailOnError(err, "Failed to retrieve underlying SQL database!")

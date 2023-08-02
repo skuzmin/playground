@@ -31,7 +31,7 @@ func createItem(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(fiber.StatusBadRequest)
 	}
 	// create new structure/ new empty item
-	newItem := models.Item{Text: text}
+	newItem := models.Item{Text: text, Comment: ""}
 	// create record in db and put it into newItem
 	database.Database.Create(&newItem)
 	// return response with new item

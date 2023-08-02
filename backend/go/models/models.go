@@ -6,6 +6,7 @@ import (
 
 	"github.com/gofiber/contrib/websocket"
 	"golang.org/x/exp/slices"
+	"gorm.io/gorm"
 )
 
 // RABBITMQ
@@ -19,8 +20,10 @@ type RabbitMQPayload struct {
 
 // CRUD
 type Item struct {
-	ID   uint   `json:"id" gorm:"primaryKey"`
-	Text string `json:"text"`
+	gorm.Model
+	ID      uint   `json:"id" gorm:"primaryKey"`
+	Text    string `json:"text"`
+	Comment string `json:"string"`
 }
 
 type MessageEvent struct {

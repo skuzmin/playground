@@ -13,7 +13,7 @@ export class MainService {
   }
 
   createItem(text: string): Promise<GridItem> {
-    const data = { id: Math.floor(Math.random() * 1000), text };
+    const data = { text, comment: '' };
     return this.prisma.items.create({ data });
   }
 
