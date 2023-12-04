@@ -1,5 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import fastifyMultipart from '@fastify/multipart';
 import * as dotenv from 'dotenv';
@@ -8,7 +11,6 @@ import cluster from 'node:cluster';
 
 import { AppModule } from './app.module';
 import { UwsAdapter } from './uws/uws.adapter';
-
 
 // if (cluster.isPrimary) {
 //   for (let i = 0; i < cpus().length; i++) {
@@ -23,7 +25,7 @@ async function bootstrap() {
   fastifyAdapter.register(fastifyMultipart);
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    fastifyAdapter
+    fastifyAdapter,
   );
   // UWS
   app.useWebSocketAdapter(new UwsAdapter(8080));
@@ -41,5 +43,3 @@ async function bootstrap() {
 }
 bootstrap();
 // }
-
-

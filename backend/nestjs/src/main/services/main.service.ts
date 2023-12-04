@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 
 import { GridItem } from '../models';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 
 @Injectable()
 export class MainService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   getList(): Promise<GridItem[]> {
     return this.prisma.items.findMany();
@@ -17,11 +16,11 @@ export class MainService {
     return this.prisma.items.create({ data });
   }
 
-  updateItem(where: Prisma.itemsWhereUniqueInput, data: GridItem): Promise<GridItem> {
+  updateItem(where: any, data: GridItem): Promise<GridItem> {
     return this.prisma.items.update({ data, where });
   }
 
-  async deleteItem(where: Prisma.itemsWhereUniqueInput): Promise<void> {
+  async deleteItem(where: any): Promise<void> {
     await this.prisma.items.delete({ where });
   }
 }
