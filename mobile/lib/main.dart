@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/dropdown.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -15,8 +17,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Playground'),
-          actions: [],
+          backgroundColor: const Color(0xff053122),
+          title: const Text(
+            'Playground',
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: const <Widget>[LanguageSelector()],
         ),
       ),
     );
